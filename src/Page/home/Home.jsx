@@ -5,6 +5,8 @@ import Navbar from '../../components/navbar/Navbar'
 import HeroSection from '../../components/heroSection/HeroSection'
 import Filter from '../../components/filter/Filter'
 import ProductCard from '../../components/productCard/ProductCard'
+import Track from '../../components/track/Track'
+import Testimonial from '../../components/testimonial/Testimonial'
 
 function Home() {
  
@@ -13,6 +15,8 @@ function Home() {
       <HeroSection/>
       <Filter/>
       <ProductCard/>
+      <Track/>
+      <Testimonial/>
     </Layout>
   )
 }
