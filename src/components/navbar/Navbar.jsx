@@ -5,13 +5,20 @@ import { BsFillCloudSunFill } from 'react-icons/bs'
 import { FiSun } from 'react-icons/fi'
 import myContext from '../../context/data/myContext'
 import { RxCross2 } from 'react-icons/rx'
-import ProfileImg from '../../assets/profile.jpg'
 
 export default function Navbar() {
   const [open, setOpen] = useState(false)
 
   const context = useContext(myContext)
   const { toggleMode, mode } = context
+
+  const user = JSON.parse(localStorage.getItem('user'))
+
+  const logout = () => {
+    localStorage.clear('user')
+    window.location.href = "/"
+  }
+
 
   return (
     <div className="bg-white sticky top-0 z-50  "  >
@@ -52,7 +59,7 @@ export default function Navbar() {
                   </button>
                 </div>
                 <div className="space-y-6 border-t border-gray-200 px-4 py-6">
-                  
+
                   <Link to={'/allproducts'} className="text-sm font-medium text-gray-900 " style={{ color: mode === 'dark' ? 'white' : '', }}>
                     All Products
                   </Link>
@@ -62,22 +69,22 @@ export default function Navbar() {
                     </Link>
                   </div>
 
-                  <div className="flow-root">
+                  {user?.user?.email === 'knupadhyay784@gmail.com' ? <div className="flow-root">
                     <Link to={'/dashboard'} className="-m-2 block p-2 font-medium text-gray-900" style={{ color: mode === 'dark' ? 'white' : '', }}>
                       admin
                     </Link>
-                  </div>
+                  </div> : ""}
 
-                  <div className="flow-root">
-                    <a className="-m-2 block p-2 font-medium text-gray-900 cursor-pointer" style={{ color: mode === 'dark' ? 'white' : '', }}>
+                  {user ? <div className="flow-root">
+                    <a onClick={logout} className="-m-2 block p-2 font-medium text-gray-900 cursor-pointer" style={{ color: mode === 'dark' ? 'white' : '', }}>
                       Logout
                     </a>
-                  </div>
+                  </div> : ""}
                   <div className="flow-root">
                     <Link to={'/'} className="-m-2 block p-2 font-medium text-gray-900 cursor-pointer">
                       <img
                         className="inline-block w-10 h-10 rounded-full"
-                        src={ProfileImg}
+                        src="https://overreacted.io/static/profile-pic-c715447ce38098828758e525a1128b87.jpg"
                         alt="Dan_Abromov" />                                        </Link>
                   </div>
                 </div>
@@ -138,13 +145,20 @@ export default function Navbar() {
                   <Link to={'/order'} className="text-sm font-medium text-gray-700 " style={{ color: mode === 'dark' ? 'white' : '', }}>
                     Order
                   </Link>
-                  <Link to={'/dashboard'} className="text-sm font-medium text-gray-700 " style={{ color: mode === 'dark' ? 'white' : '', }}>
-                    Admin
-                  </Link>
 
-                  <a className="text-sm font-medium text-gray-700 cursor-pointer  " style={{ color: mode === 'dark' ? 'white' : '', }}>
+                  {user?.user?.email === 'knupadhyay784@gmail.com'?
+                   <Link to={'/dashboard'} className="text-sm font-medium text-gray-700 " style={{ color: mode === 'dark' ? 'white' : '', }}>
+                    Admin
+                  </Link> : ""
+                }
+                 
+
+                  {user ? <a onClick={logout} className="text-sm font-medium text-gray-700 cursor-pointer  " style={{ color: mode === 'dark' ? 'white' : '', }}>
                     Logout
-                  </a>
+                  </a> : <Link to={'/signup'} className="text-sm font-medium text-gray-700 cursor-pointer  " style={{ color: mode === 'dark' ? 'white' : '', }}>
+                    Signup
+                  </Link>}
+
                 </div>
 
                 <div className="hidden lg:ml-8 lg:flex">
@@ -184,7 +198,6 @@ export default function Navbar() {
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
                       <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z" />
                     </svg>
-
                     <span className="ml-2 text-sm font-medium text-gray-700 group-" style={{ color: mode === 'dark' ? 'white' : '', }}>0</span>
                     <span className="sr-only">items in cart, view bag</span>
                   </Link>
