@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from 'react'
 import MyContext from './myContext';
-import { fireDB} from '../../firebase/FirebaseConfig';
+import { fireDB } from '../../firebase/FirebaseConfig';
 import { Timestamp, addDoc, collection, onSnapshot, orderBy, query } from 'firebase/firestore';
 import { toast } from 'react-toastify';
 
 
 function MyState(props) {
-  const [mode, setMode] = useState('light');  
-  const [loading, setLoading] = useState(false); 
+  const [mode, setMode] = useState('light');
+  const [loading, setLoading] = useState(false);
+
 
   const toggleMode = () => {
     if (mode === 'light') {
@@ -20,7 +21,7 @@ function MyState(props) {
     }
   }
 
-  const [products, setProducts] = useState({
+  const [products, setProducts] = useState([ {
     title: null,
     price: null,
     imageUrl: null,
@@ -36,10 +37,14 @@ function MyState(props) {
       }
     )
 
-  })
-
+  } ])
+  
+ 
+//bbbbbbmbnmhjbb  jhb 
   // ********************** Add Product Section  **********************
+  
   const addProduct = async () => {
+   
     if (products.title == null || products.price == null || products.imageUrl == null || products.category == null || products.description == null) {
       return toast.error('Please fill all fields')
     }
@@ -47,13 +52,16 @@ function MyState(props) {
     setLoading(true)
     try {
       await addDoc(productRef, products)
+      console.log(products);
       toast.success("Product Add successfully")
+
       setTimeout(() => {
         window.location.href = '/dashboard'
-    }, 850);
+      }, 850);
       getProductData()
       closeModal()
       setLoading(false)
+
     } catch (error) {
       console.log(error)
       setLoading(false)
@@ -93,9 +101,10 @@ function MyState(props) {
 
 
   return (
-    <MyContext.Provider value={{ 
-      mode, toggleMode, loading,setLoading,
-      products, setProducts,addProduct }}>
+    <MyContext.Provider value={{
+      mode, toggleMode, loading, setLoading,
+      products, setProducts, addProduct, product
+    }}>
       {props.children}
     </MyContext.Provider>
   )
