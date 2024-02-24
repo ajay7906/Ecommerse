@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import MyContext from './myContext';
 import { fireDB } from '../../firebase/FirebaseConfig';
-import { Timestamp, addDoc, collection, onSnapshot, orderBy, query } from 'firebase/firestore';
+import { Timestamp, addDoc, collection, deleteDoc, doc, onSnapshot, orderBy, query, setDoc } from 'firebase/firestore';
 import { toast } from 'react-toastify';
 
 
@@ -21,7 +21,7 @@ function MyState(props) {
     }
   }
 
-  const [products, setProducts] = useState([ {
+  const [products, setProducts] = useState([{
     title: null,
     price: null,
     imageUrl: null,
@@ -37,14 +37,14 @@ function MyState(props) {
       }
     )
 
-  } ])
-  
- 
-//bbbbbbmbnmhjbb  jhb 
+  }])
+
+
+  //bbbbbbmbnmhjbb  jhb 
   // ********************** Add Product Section  **********************
-  
+
   const addProduct = async () => {
-   
+
     if (products.title == null || products.price == null || products.imageUrl == null || products.category == null || products.description == null) {
       return toast.error('Please fill all fields')
     }
@@ -99,11 +99,46 @@ function MyState(props) {
     getProductData();
   }, []);
 
+  //update data
+
+  const edithandle = (item) => {
+    setProducts(item)
+  }
+  // update product
+  const updateProduct = async (item) => {
+    setLoading(true)
+    try {
+      await setDoc(doc(fireDB, "products", products.id), products);
+      toast.success("Product Updated successfully")
+      getProductData();
+      setLoading(false)
+      window.location.href = '/dashboard'
+    } catch (error) {
+      setLoading(false)
+      console.log(error)
+    }
+    setProducts("")
+  }
+
+  const deleteProduct = async (item) => {
+
+    try {
+      setLoading(true)
+      await deleteDoc(doc(fireDB, "products", item.id));
+      toast.success('Product Deleted successfully')
+      setLoading(false)
+      getProductData()
+    } catch (error) {
+      // toast.success('Product Deleted Falied')
+      setLoading(false)
+    }
+  }
+
 
   return (
     <MyContext.Provider value={{
       mode, toggleMode, loading, setLoading,
-      products, setProducts, addProduct, product
+      products, setProducts, addProduct, product, edithandle,deleteProduct, updateProduct
     }}>
       {props.children}
     </MyContext.Provider>
