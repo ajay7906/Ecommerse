@@ -24,9 +24,9 @@ function App() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/order" element={
-              <ProtectedRoutes>
-                <Order />
-              </ProtectedRoutes>
+               <ProtectedRoutes>
+               <Order />
+             </ProtectedRoutes>
             } />
             <Route path="/cart" element={<Cart />} />
             <Route path="/dashboard" element={
@@ -62,7 +62,7 @@ export default App
 
 //user file
 export const ProtectedRoutes = ({ children }) => {
-  if (localStorage.getItem('currentUser')) {
+  if (localStorage.getItem('user')) {
     return children
   }
   else {
