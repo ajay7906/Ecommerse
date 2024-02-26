@@ -9,7 +9,7 @@ function HeroSection() {
   const Image = product[1]
   console.log(Image);
   const user = JSON.parse(localStorage.getItem('user'))
-  const SectionImg= user?.user?.email === 'knupadhyay784@gmail.com'
+  const SectionImg= user?.user?.email === 'ajaykumar@gmail.com'
   console.log(SectionImg);
   return (
     <>
