@@ -7,10 +7,12 @@ function HeroSection() {
   const context = useContext(myContext)
   const { product } = context;
   const Image = product[1]
-  console.log(Image);
+  const Id = Image.id
+  console.log(Id);
+
   const user = JSON.parse(localStorage.getItem('user'))
   const SectionImg= user?.user?.email === 'ajaykumar@gmail.com'
-  console.log(SectionImg);
+ 
   return (
     <>
     <div style={{
@@ -26,7 +28,7 @@ function HeroSection() {
         </div>
       </div>
 
-      <button className='absolute bottom-7 left-20 m-11 bg-blue-800 p-3 rounded-lg'>Buy Now</button>  </>
+      <button onClick={() => window.location.href = `/productinfo/${Id}`} className='absolute bottom-7 left-20 m-11 bg-blue-800 p-3 rounded-lg'>Buy Now</button>  </>
       }
 
     </div>
